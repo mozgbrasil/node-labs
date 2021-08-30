@@ -168,6 +168,12 @@
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
+    "cschleiden.vscode-github-actions",
+    "donjayamanne.githistory",
+    "eamodio.gitlens",
+    "GitLab.gitlab-workflow",
+    "mhutchie.git-graph",
+    "Atlassian.atlascode",
     "alefragnani.project-manager",
     "alexcvzz.vscode-sqlite",
     "almenon.arepl",
@@ -202,7 +208,7 @@
     "ms-azuretools.vscode-cosmosdb",
     "ms-python.python",
     "ms-python.vscode-pylance",
-    "ms-vscode.vscode-typescript-next"
+    "ms-vscode.vscode-typescript-next",
     "natqe.reload",
     "njpwerner.autodocstring",
     "oderwat.indent-rainbow",
