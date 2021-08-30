@@ -1,0 +1,38 @@
+//- nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
+<header>
+nav.navbar.navbar-expand-md.navbar-dark.mb-1
+  .container
+    .text-center
+      a(href='/')
+        img.d-inline-block.align-top(src='/images/logos/Russian_Army_Star.svg' width='50' alt='')
+      p
+        span.badge.bg-dark MOZG
+    button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarScroll' aria-controls='navbarScroll' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarScroll.collapse.navbar-collapse
+      ul.navbar-nav.me-auto.my-2.my-lg-0.navbar-nav-scroll(style='--bs-scroll-height: 100px;')
+        li.nav-item(class=(title === 'Home') ? 'active' : undefined)
+           a.nav-link(href='/', class=(title === 'Home') ? 'active' : undefined) Visão geral
+
+        li.nav-item.dropdown(class=(title === 'airbnb') ? 'active' : undefined)
+          a.nav-link.dropdown-toggle(href='#', data-bs-toggle='dropdown')
+            | ST IT
+            i.caret
+          ul.dropdown-menu
+            li
+              a.dropdown-item(href='/stit_scope', class=(title == '/stit/talent') ? 'active' : undefined) Escopo
+            li
+              a.dropdown-item(href='/products/STUFF A?tags=Practical') Products
+      ul.nav.navbar-nav
+        if !user
+          li.nav-item(class=(title === 'Login') ? 'active' : undefined)
+            a.nav-link(href='/login', class=(title === 'Login') ? 'active' : undefined) Login
+        else
+          li.nav-item.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
+            a.nav-link.dropdown-toggle(href='#', data-bs-toggle='dropdown', class=(title === 'Account Management') ? 'active' : undefined)
+              span= user.email || user.id
+              i.caret
+            ul.dropdown-menu
+              li.nav-item
+                a.dropdown-item(href='/logout') Logout
+</header>

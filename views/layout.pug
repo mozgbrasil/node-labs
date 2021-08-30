@@ -1,30 +1,49 @@
+include ./mixins.pug
 doctype html
 html(lang='')
   head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    title #{title} - Hackathon Starter
-    meta(name='description', content='')
-    meta(name='theme-color' content='#4DA5F4')
-    link(rel='stylesheet', href='/css/main.css')
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  title #{title} - #{app_id} - Express.js + TypeScript
+  meta(name='description', content='')
+  meta(name='theme-color' content='#4DA5F4')
+  link(href='/favicon.ico' rel='shortcut icon' type='image/x-icon')
+  link(href='/favicon.ico' rel='icon' type='image/x-icon')
+  link(rel='stylesheet', href='/css/main.css')
 
   body
+
+  if app_id == "ST IT Cloud"
+    include tests/stit/header
+  else
     include partials/header
 
+  main
     .container.pl-sm-0.pr-sm-0.pl-lg-3.pr-lg-3
       include partials/flash
       block content
 
-    include partials/footer
+  include partials/footer
 
-    script(src='/js/lib/jquery-3.1.1.min.js')
-    script(src='/js/lib/bootstrap.min.js')
-    script(async defer src="https://buttons.github.io/buttons.js")
-    script(src='/js/main.js')
+  script(src='/js/lib/jquery-3.1.1.min.js')
+  //- script(src='/js/lib/bootstrap-4.1.2.min.js')
+  script(src='/js/lib/bootstrap-5.1.0.min.js')
+  script(async defer src="https://buttons.github.io/buttons.js")
+  script(src='/js/main.js')
 
-    //- Google Analytics: change UA-38177297-2 to be your site's ID
-    script.
-      window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-      ga('create','UA-38177297-2','auto');ga('send','pageview')
-    script(src='https://www.google-analytics.com/analytics.js' async defer)
+  //
+  script.
+    var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+    var toastList = toastElList.map(function (toastEl) {
+      let option;
+      var myBsToast = new bootstrap.Toast(toastEl, option);
+      myBsToast.show();
+      return myBsToast;
+    });
+
+  //- Google Analytics: change UA-38177297-2 to be your site's ID
+  script.
+    window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+    ga('create','UA-38177297-2','auto');ga('send','pageview')
+  script(src='https://www.google-analytics.com/analytics.js' async defer)

@@ -1,0 +1,38 @@
+extends ../../layout
+
+block content
+  main.bd-content(class='main-/sobre-nos/')
+    .jumbotron
+      .container
+        h1 ST IT Cloud #{(ret ? ret.version : "")}
+
+    .container
+      .row
+        p Conforme o seguinte escopo:
+        p
+          a(href='https://github.com/stit/talent-data-api-test') https://github.com/stit/talent-data-api-test
+        p Seguindo as metodologias CI/CD
+        p Acabo de integrar o projeto em
+        p
+          a(href='https://github.com/mozgbrasil/tests-nodejs') https://github.com/mozgbrasil/tests-nodejs
+        p Acabo de implantar o projeto em
+        p
+           a(href='https://tests-nodejs.herokuapp.com/') https://tests-nodejs.herokuapp.com/
+        p Foi implantado exibição dinâmica de projeto
+        p Foi implantado os processos de frontend e backend
+        p Foi implantado os testes automatizados usando o jest
+        p
+        p A fim de simular uma aplicação resgatando as informações do backend, pode ser feito simulações de autenticação via terminal
+        p
+        <pre class="highlight"><code><samp>
+        | curl -d "email=user@goog.com&password=123" -X POST https://tests-nodejs.herokuapp.com/login
+        </samp></code></pre>
+        p A seguir testando com um usuário real, temos o token de autenticação
+        <pre class="highlight"><code><samp>
+        | curl -d "email=junior.salesrep%40stit.talent&password=ymWK5FHn27gjd9clZTR8QfZWOIBQTh1m" -X POST https://tests-nodejs.herokuapp.com/login
+        </samp></code></pre>
+        p
+        p Acessando a pagina de produtos, caso o usúario tenha feito a autenticação vemos o devido retorno dos registros
+        p
+          a(href='https://tests-nodejs.herokuapp.com/products/STUFF A?tags=Practical') https://tests-nodejs.herokuapp.com/products/STUFF A?tags=Practical
+        p

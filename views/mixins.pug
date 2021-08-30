@@ -1,0 +1,215 @@
+//- Declaration
+mixin deflogin
+  form.form-horizontal(method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group.row.justify-content-md-center
+      label.col-sm-3.col-form-label.text-right.font-weight-bold(for='email') Email
+      .col-sm-7
+        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+    .form-group.row.justify-content-md-center
+      label.col-sm-3.col-form-label.text-right.font-weight-bold(for='password') Password
+      .col-sm-7
+        input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+    .form-group.row.justify-content-md-center
+      .offset-sm-3.col-sm-7
+        button.col-sm-3.btn.btn-primary(type='submit')
+          i.fa.fa-user
+          | Login
+        a.btn.btn-link(href='/forgot') Forgot your password?
+    .form-group.row.justify-content-md-center
+      .offset-sm-3.col-sm-7
+        hr
+    .form-group.row.justify-content-md-center
+      .offset-sm-3.col-sm-7
+        a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
+          i.fa.fa-facebook
+          | Sign in with Facebook
+
+mixin mozlogin
+  .container.h-100
+    .d-flex.justify-content-center.h-100
+      .user_card
+        .d-flex.justify-content-center
+          .brand_logo_container
+            img.brand_logo(src='/images/logos/Russian_Army_Star.svg' alt='Logo')
+        .d-flex.justify-content-center.form_container
+          form(method='POST' action='/login')
+            .input-group.mb-3
+              .input-group-append
+                span.input-group-text
+                  i.fa.fa-user
+              input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+            .input-group.mb-2
+              .input-group-append
+                span.input-group-text
+                  i.fa.fa-key
+              input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+            .form-group
+            .d-flex.justify-content-center.mt-3.login_container
+              button.btn.login_btn(type='submit' name='button') Login
+        .mt-4
+          .d-flex.justify-content-center.links
+            a(href='#') Forgot your password?
+          .d-flex.justify-content-center.links
+            a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
+              i.fa.fa-facebook
+              | Sign in with Facebook
+
+mixin stitlogin
+  .container.h-100
+    .d-flex.justify-content-center.h-100
+      .user_card
+        .d-flex.justify-content-center
+          .brand_logo_container
+            img.brand_logo(src='/images/logos/Russian_Army_Star.svg' alt='Logo')
+        .d-flex.justify-content-center.form_container
+          form(method='POST' action='/login')
+            .input-group.mb-3
+              .input-group-append
+                span.input-group-text
+                  i.fa.fa-user
+              input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+            .input-group.mb-2
+              .input-group-append
+                span.input-group-text
+                  i.fa.fa-key
+              input.form-control(type='password', name='password', id='password', placeholder='Password', required)
+            .form-group
+            .d-flex.justify-content-center.mt-3.login_container
+              button.btn.login_btn(type='submit' name='button') Login
+
+mixin renderProducts(products)
+    main.bd-content(class='main-/sobre-nos/')
+        .jumbotron
+            .container
+                h1 MongoDB Atlas - Sample Data Airbnb
+                p #{type}
+        .container
+            .anchorar
+                .row
+                    .col-md-12
+                        //- p
+                            //- #{products}
+
+                        <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Notes</th>
+                            <th scope="col">Access</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            for product in products
+                                <tr>
+                                <th scope="row">#{product._id}</th>
+                                <td>#{product.name}</td>
+                                <td>#{product.notes}</td>
+                                <td>#{product.access}</td>
+                                </tr>
+                        </tbody>
+                        </table>
+
+                        //- for product in products
+                            //- p
+                                //- #{product}
+                            //- +renderProduct(product)
+
+mixin renderProduct(product)
+    .product-in-list
+      .product-image
+        span.information__heading__tag= product.name
+        //- #{product.fields.name}
+        //- console.log(product.fields.name)
+        //- +renderImage(product.fields.image[0], product.fields.slug, 150)
+      .product-details
+        //- +renderProductDetails(product.fields)
+
+
+mixin renderImage(image, slug, w)
+  if image && image.fields.file
+    if slug != ""
+      a(href="/products/"+slug data-nav)
+        if(w)
+          img(src=image.fields.file.url+"?w="+w alt=image.fields.title)
+        else
+          img(src=image.fields.file.url alt=image.fields.title)
+
+    else if(w)
+      img(src=image.fields.file.url+"?w="+w alt=image.fields.title width=w)
+    else
+      img(src=image.fields.file.url alt=image.fields.title)
+  else
+
+
+mixin renderProductDetails(fields)
+  +renderProductHeader(fields)
+  p.product-categories #{fields.categories.map(function(category){ return category.fields.title }).join(', ')}
+  p #{fields.productDescription}
+  p #{fields.price} &euro;
+  +renderTags(fields.tags)
+
+mixin renderProductHeader(fields)
+  .product-header
+    h2
+      a(href="/products/"+fields.slug data-nav) #{fields.productName}
+    span  by
+    a(href="brand/"+fields.brand.sys.id data-env)  #{fields.brand.fields.companyName}
+
+mixin renderSingleProduct(singleProduct)
+  .single-product
+    .product-image
+      +renderImage(singleProduct.fields.image[0], "", 300)
+    .product-details
+      .product-header
+        h2 #{singleProduct.fields.productName}
+        span   by
+        a(href="/brand/"+singleProduct.fields.brand.sys.id data-nav) #{singleProduct.fields.brand.fields.companyName}
+      p.product-categories #{singleProduct.fields.categories.map(function(category){ return category.fields.title }).join(', ')}
+      p #{singleProduct.fields.productDescription}
+      p Size/Type/Color: #{singleProduct.fields.sizetypecolor}
+      p #{singleProduct.fields.quantity} in stock
+      p #{singleProduct.fields.price} &euro;
+      p SKU: #{singleProduct.fields.sku}
+      p More details:
+        a(href=singleProduct.fields.website) #{singleProduct.fields.website}
+      +renderTags(singleProduct.fields.tags)
+
+mixin renderTags(tags)
+  p.product-tags
+    span Tags:
+    ul.tags
+      for tag in tags
+        li.tag #{tag}
+
+mixin renderCategories(categories, products)
+  .categories
+    ul.categories-list
+      +renderCategoriesList(categories)
+    div
+      +renderProducts(products)
+
+mixin renderCategoriesList(categories)
+  li
+    a(href="/categories") All
+  for category in categories
+    li
+      img(src=category.fields.icon.fields.file.url width="20" height="20" alt=category.fields.categoryDescription title=category.fields.categoryDescription)
+      a(href="/categories/"+category.sys.id data-nav) #{category.fields.title}
+
+
+mixin renderBrand(brand)
+  .brand
+    h2 #{brand.fields.companyName}
+    div
+      +renderImage(brand.fields.logo)
+    p #{brand.fields.companyDescription}
+    p
+      a(href=brand.fields.website) #{brand.fields.website}
+    p
+      a(href=brand.fields.twitter) #{brand.fields.twitter}
+    p
+      a(href=brand.fields.email) #{brand.fields.email}
+    p
+      a(href=brand.fields.phone) #{brand.fields.phone}

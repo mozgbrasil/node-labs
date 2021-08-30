@@ -10,6 +10,10 @@ import { body, check, validationResult } from "express-validator";
 import "../config/passport";
 import { CallbackError, NativeError } from "mongoose";
 
+import fs from "fs";
+import path from "path";
+import jwt from "jsonwebtoken";
+
 /**
  * Login page.
  * @route GET /login
@@ -58,8 +62,15 @@ export const postLogin = async (req: Request, res: Response, next: NextFunction)
  * @route GET /logout
  */
 export const logout = (req: Request, res: Response): void => {
-    req.logout();
-    res.redirect("/");
+  const cookie = req.cookies;
+  for (const prop in cookie) {
+    if (!cookie.hasOwnProperty(prop)) {
+      continue;
+    }
+    res.cookie(prop, "", { expires: new Date(0) });
+  }
+  req.logout();
+  res.redirect("/");
 };
 
 /**
@@ -382,4 +393,104 @@ export const postForgot = async (req: Request, res: Response, next: NextFunction
         if (err) { return next(err); }
         res.redirect("/forgot");
     });
+};
+
+//
+
+export enum IRole {
+  senior = "senior",
+  middle = "middle",
+  junior = "senior",
+  intern = "intern",
+}
+
+export interface IUser {
+  userId: string;
+  email: string;
+  password: string;
+  roles: IRole[];
+}
+
+export type IUsers = IUser[];
+
+class Users {
+  private pathfinder: string = path.resolve("./fixtures/users.json");
+  private pathContent = fs.readFileSync(this.pathfinder, "utf-8");
+  private users = JSON.parse(this.pathContent) as IUsers;
+
+  find(email: string, password: string) {
+    return this.users.find((u) => u.email == email && u.password == password);
+  }
+}
+
+export default new Users();
+
+/**
+ * Login page.
+ * @route GET /login
+ */
+export const getLoginStIt = (req: Request, res: Response): void => {
+  if (req.user) {
+    return res.redirect("/");
+  }
+  res.render("tests/stit/login", {
+    title: "Login",
+  });
+};
+
+/**
+ * Sign in using email and password.
+ * @route POST /login
+ */
+export const postLoginStIt = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+  // ): Promise<void> => {
+) => {
+  await check("email", "Email is not valid").isEmail().run(req);
+  await check("password", "Password cannot be blank")
+    .isLength({ min: 1 })
+    .run(req);
+  await check("email").normalizeEmail({ gmail_remove_dots: false }).run(req);
+
+  const errors = validationResult(req);
+
+  const { email, password } = req.body;
+  const users = new Users();
+  const user = users.find(email, password);
+
+  if (!user) {
+    req.flash("errors", {
+      msg: "User email or password not found.",
+    });
+    return res.redirect("/login");
+  }
+
+  const payload = {
+    userId: user.userId,
+    email: user.email,
+    roles: user.roles,
+  };
+  const secretOrPrivateKey = process.env.JWT_SECRET;
+  const token = jwt.sign(payload, secretOrPrivateKey);
+  const options = {
+    token: token,
+  };
+  res.cookie("jsonwebtoken", token);
+
+  req.flash("success", {
+    msg: "Autenticação efetuada",
+  });
+
+  if (res.req.headers.hasOwnProperty("user-agent")) {
+    const userAgent = res.req.headers["user-agent"];
+    const contains_curl = userAgent.includes("curl");
+    if (contains_curl) {
+      return res.send(options);
+    }
+    return res.redirect("/");
+  }
+
+  return res.send(options);
 };

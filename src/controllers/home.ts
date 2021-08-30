@@ -5,7 +5,18 @@ import { Request, Response } from "express";
  * @route GET /
  */
 export const index = (req: Request, res: Response) => {
-    res.render("home", {
-        title: "Home"
+  req.flash("success", {
+    msg: "Seja Bem Vindo a aplicação: " + process.env.APP_ID + "",
+  });
+
+  if (req.cookies.jsonwebtoken) {
+    const token = req.cookies["jsonwebtoken"];
+    req.flash("success", {
+      msg: "Token: " + token,
     });
+  }
+
+  res.render("home", {
+    title: "Home",
+  });
 };

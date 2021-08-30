@@ -1,0 +1,40 @@
+extends ../../layout
+
+block content
+  .page-header
+  h3 Sign in
+  hr
+
+  .toast(role='alert' aria-live='assertive' aria-atomic='true' data-bs-autohide='false')
+    .toast-header
+      i.fa.fa-magic
+      strong.me-auto &nbsp;
+      small &nbsp;
+      button.btn-close(type='button' data-bs-dismiss='toast' aria-label='Close')
+    .toast-body
+      | Auto-preencher como:
+      .mt-2.pt-2.border-top
+        button#junior.btn.btn-primary.btn-sm(type='button') junior &nbsp;
+        button#middle.btn.btn-primary.btn-sm(type='button') middle &nbsp;
+        button#senior.btn.btn-primary.btn-sm(type='button') senior &nbsp;
+        button#intern.btn.btn-primary.btn-sm(type='button') intern
+  script.
+    document.getElementById('junior').addEventListener("click", () => {
+      document.getElementById("email").value = "junior.salesrep@stit.talent";
+      document.getElementById("password").value = "ymWK5FHn27gjd9clZTR8QfZWOIBQTh1m";
+    });
+    document.getElementById('middle').addEventListener("click", () => {
+      document.getElementById("email").value = "middle.salesrep@stit.talent";
+      document.getElementById("password").value = "9fiD2NCGeLqjSSjhUP78kDS3ic2B93Wy";
+    });
+    document.getElementById('senior').addEventListener("click", () => {
+      document.getElementById("email").value = "senior.salesrep@stit.talent";
+      document.getElementById("password").value = "Scl2opcPUOEcTd0abrSBxwHsDuHklEs2";
+    });
+    document.getElementById('intern').addEventListener("click", () => {
+      document.getElementById("email").value = "intern.salesrep@stit.talent";
+      document.getElementById("password").value = "Or63inluKBLPs006vw9diRmzdCjYLB9H";
+    });
+
+
+  +stitlogin

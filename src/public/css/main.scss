@@ -1,39 +1,47 @@
 @import "themes/default/variables";
 
-@import "lib/bootstrap/bootstrap";
-@import "lib/font-awesome/font-awesome";
+@import "lib/bootstrap-5.1.0/bootstrap";
+// @import "lib/bootstrap-4.1.2/bootstrap";
 
-@import "themes/default/default";
+// @import "lib/fontawesome-free-5.15.4/fontawesome";
+@import "lib/font-awesome-4.6.3/font-awesome";
+
+// @import "themes/default/default";
+
+// @import "themes/gsdk/gsdk";
+
+@import "themes/mozth001/mozth001";
 
 // Scaffolding
 // -------------------------
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+// html {
+//   position: relative;
+//   min-height: 100%;
+// }
 
-body {
-  padding-top: 80px;
-  margin-bottom: 75px;
-}
+// body {
+//   //   padding-top: 80px;
+//   margin-bottom: 75px;
+// }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+// footer {
+//   position: absolute;
+//   bottom: 0;
+//   width: 100%;
 
-  p, ul {
-    margin-bottom: 0;
-  }
-}
+//   p,
+//   ul {
+//     margin-bottom: 0;
+//   }
+// }
 
 // Input Fields
 // -------------------------
 
-textarea {
-  resize: vertical;
-}
+// textarea {
+//   resize: vertical;
+// }
 
 // Navbar
 // -------------------------
