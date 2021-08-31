@@ -1,4 +1,8 @@
-# Based on
+[checkmark]: https://raw.githubusercontent.com/mozgbrasil/mozgbrasil.github.io/master/assets/images/logos/logo_32_32.png "MOZG"
+
+![valid XHTML][checkmark]
+
+# node-labs
 
 - https://github.com/Microsoft/TypeScript-Node-Starter
 - https://github.com/microsoft/TypeScript-Node-Starter/commit/fdd543a21d650e2ce4c40a13369e46261698420f
