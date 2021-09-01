@@ -7,6 +7,28 @@
 - https://github.com/Microsoft/TypeScript-Node-Starter
 - https://github.com/microsoft/TypeScript-Node-Starter/commit/fdd543a21d650e2ce4c40a13369e46261698420f
 
+## Contribuição
+
+Caso queira contribuir para melhoria da documentação de um Fork no repositório e envie um pull request ou edite no github
+
+## Requerimentos
+
+- https://www.docker.com/
+- https://code.visualstudio.com/
+- https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack
+
+## Executando local
+
+```
+git clone ☝️
+
+cd <directory>
+
+code --new-window .
+```
+
+## Executando no container
+
 # TypeScript Node Starter
 
 The main purpose of this repository is to show a working Node.js API Server + front-end project and workflow for writing Node code in TypeScript.

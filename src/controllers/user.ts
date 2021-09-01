@@ -414,7 +414,9 @@ export interface IUser {
 export type IUsers = IUser[];
 
 class Users {
-  private pathfinder: string = path.resolve("./fixtures/users.json");
+  private pathfinder: string = path.resolve(
+    "./views/tests/stit/scope/fixtures/users.json"
+  );
   private pathContent = fs.readFileSync(this.pathfinder, "utf-8");
   private users = JSON.parse(this.pathContent) as IUsers;
 

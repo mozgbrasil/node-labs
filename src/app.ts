@@ -1,3 +1,6 @@
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("../swagger_output.json");
+
 import express from "express";
 import { Handler } from "express";
 import compression from "compression"; // compresses requests
@@ -53,10 +56,11 @@ mongoose
   });
 
 // Express configuration
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use(cookieParser());
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
-app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -153,7 +157,7 @@ app.get("/", homeController.index);
 
 const expr = process.env.APP_ID;
 switch (expr) {
-  case "ST IT Cloud":
+  case "st_id_cloud":
     app.get("/login", userController.getLoginStIt);
     app.post("/login", userController.postLoginStIt);
     break;
@@ -227,7 +231,7 @@ app.get(/.*fly$/, function (req, res) {
 });
 app.get("/airbnb", airbnbController.index);
 
-// ST IT Cloud
+// st_id_cloud
 
 app.get("/stit_scope", stitController.index);
 
@@ -268,6 +272,12 @@ app.get(
   }
 );
 
-// ST IT Cloud
+// findup_tec
+
+// app.get("/", stitController.index);
+app.put("/users/:userId", stitController.index);
+app.delete("/users/:userId", stitController.index);
+app.get("/users/:userId", stitController.index);
+app.get("/users", stitController.index);
 
 export default app;

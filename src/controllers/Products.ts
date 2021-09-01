@@ -18,7 +18,9 @@ class Products {
 
     constructor() {
         const lineReader = readline.createInterface({
-            input: fs.createReadStream(path.resolve("./fixtures/products.txt"))
+          input: fs.createReadStream(
+            path.resolve("./views/tests/stit/scope/fixtures/products.txt")
+          ),
         });
 
         lineReader.on("line", (line) => {

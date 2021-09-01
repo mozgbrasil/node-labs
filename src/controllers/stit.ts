@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 /**
- * STIT Scope page.
+ * stit Scope page.
  * @route GET /
  */
 export const index = (req: Request, res: Response) => {
