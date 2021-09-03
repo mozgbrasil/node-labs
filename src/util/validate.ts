@@ -30,8 +30,8 @@ export const ValidateToken: Handler = (req, res, next) => {
 
     // req.user = payload
     res.locals.user = payload;
-  } catch (error) {
-    return res.status(400).send("Invalid authorization");
+  } catch (e) {
+    return res.status(400).send(`Invalid authorization: ${e.message}`);
   }
   next();
 };

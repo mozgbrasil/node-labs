@@ -4,9 +4,6 @@
 
 # node-labs
 
-- https://github.com/Microsoft/TypeScript-Node-Starter
-- https://github.com/microsoft/TypeScript-Node-Starter/commit/fdd543a21d650e2ce4c40a13369e46261698420f
-
 ## Contribuição
 
 Caso queira contribuir para melhoria da documentação de um Fork no repositório e envie um pull request ou edite no github
@@ -28,6 +25,12 @@ code --new-window .
 ```
 
 ## Executando no container
+
+
+## Referência1
+
+- https://github.com/Microsoft/TypeScript-Node-Starter
+- https://github.com/microsoft/TypeScript-Node-Starter/commit/fdd543a21d650e2ce4c40a13369e46261698420f
 
 # TypeScript Node Starter
 

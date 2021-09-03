@@ -1,8 +1,9 @@
-const swaggerUi = require("swagger-ui-express");
+/* eslint-disable @typescript-eslint/no-var-requires */
+import swaggerUi from "swagger-ui-express";
 const swaggerFile = require("../swagger_output.json");
-
 import express from "express";
 import { Handler } from "express";
+import cors from "cors";
 import compression from "compression"; // compresses requests
 import session from "express-session";
 import bodyParser from "body-parser";
@@ -14,21 +15,8 @@ import mongoose from "mongoose";
 import passport from "passport";
 import bluebird, { any } from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
-
-// Controllers (route handlers)
-import * as homeController from "./controllers/home";
-import * as userController from "./controllers/user";
-import * as apiController from "./controllers/api";
-import * as contactController from "./controllers/contact";
-import * as airbnbController from "./controllers/airbnb";
-import * as stitController from "./controllers/stit";
-
-// API keys and Passport configuration
-import * as passportConfig from "./config/passport";
-
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import { body, query, validationResult } from "express-validator";
 
 //
 
@@ -56,7 +44,7 @@ mongoose
   });
 
 // Express configuration
-app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use(cors());
 app.use(cookieParser());
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
@@ -153,131 +141,9 @@ app.use(function (req, res, next) {
 /**
  * Primary app routes.
  */
-app.get("/", homeController.index);
 
-const expr = process.env.APP_ID;
-switch (expr) {
-  case "st_id_cloud":
-    app.get("/login", userController.getLoginStIt);
-    app.post("/login", userController.postLoginStIt);
-    break;
-  default:
-    app.get("/login", userController.getLogin);
-    app.post("/login", userController.postLogin);
-}
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.get("/logout", userController.logout);
-app.get("/forgot", userController.getForgot);
-app.post("/forgot", userController.postForgot);
-app.get("/reset/:token", userController.getReset);
-app.post("/reset/:token", userController.postReset);
-app.get("/signup", userController.getSignup);
-app.post("/signup", userController.postSignup);
-app.get("/contact", contactController.getContact);
-app.post("/contact", contactController.postContact);
-app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
-app.post(
-  "/account/profile",
-  passportConfig.isAuthenticated,
-  userController.postUpdateProfile
-);
-app.post(
-  "/account/password",
-  passportConfig.isAuthenticated,
-  userController.postUpdatePassword
-);
-app.post(
-  "/account/delete",
-  passportConfig.isAuthenticated,
-  userController.postDeleteAccount
-);
-app.get(
-  "/account/unlink/:provider",
-  passportConfig.isAuthenticated,
-  userController.getOauthUnlink
-);
-
-/**
- * API examples routes.
- */
-app.get("/api", apiController.getApi);
-app.get(
-  "/api/facebook",
-  passportConfig.isAuthenticated,
-  passportConfig.isAuthorized,
-  apiController.getFacebook
-);
-
-/**
- * OAuth authentication routes. (Sign in)
- */
-app.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["email", "public_profile"] })
-);
-app.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect(req.session.returnTo || "/");
-  }
-);
-
-/**
- * Projects routes.
- */
-app.get(/.*fly$/, function (req, res) {
-  res.send("/.*fly$/");
-});
-app.get("/airbnb", airbnbController.index);
-
-// st_id_cloud
-
-app.get("/stit_scope", stitController.index);
-
-import { ValidateParams, ValidateToken } from "./util/validate";
-import Products from "./controllers/Products";
-import Organizations from "./controllers/Organizations";
-import { Role } from "./types/Role";
-import { HasPermission } from "./util/HasPermission";
-
-app.get(
-  "/products/:organizationName",
-  query("tags").isString().optional(),
-  ValidateParams,
-  ValidateToken,
-  (req, res) => {
-    const tags = req.query.tags as string | undefined;
-    const { organizationName } = req.params;
-    const tagsParsed = tags?.split(",") || [];
-
-    const organization = Organizations.find(organizationName);
-    if (!organization) return res.status(404).send("Organization not found");
-    if (
-      !HasPermission(
-        res.locals.user.roles as Role[],
-        organization.level,
-        organization.name
-      )
-    )
-      return res.status(401).send("Access is not allowed");
-
-    const products = Products.find(
-      tagsParsed,
-      Organizations.findOneAndChilds(organization.name).map((o) => o.name)
-    );
-    const total = products.length;
-
-    res.send({ total, products });
-  }
-);
-
-// findup_tec
-
-// app.get("/", stitController.index);
-app.put("/users/:userId", stitController.index);
-app.delete("/users/:userId", stitController.index);
-app.get("/users/:userId", stitController.index);
-app.get("/users", stitController.index);
+require("./endpoints")(app);
 
 export default app;
