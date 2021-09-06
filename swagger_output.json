@@ -256,16 +256,14 @@
             "in": "query",
             "description": "Current page showing",
             "example": "3",
-            "type": "int",
-            "required": true
+            "type": "int"
           },
           {
             "name": "pageSize",
             "in": "query",
             "description": "Total items showing in per page",
             "example": "50",
-            "type": "int",
-            "required": true
+            "type": "int"
           }
         ],
         "responses": {}

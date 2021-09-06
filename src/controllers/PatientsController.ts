@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 
 import Patient from "../models/Patient"; // Pattern: mongo collection = patients
-export async function select_records(req: Request, res: Response): Promise<any> {
+export async function index(req: Request, res: Response): Promise<any> {
   try {
 
-    const page:any = req.query.page;
-    const pageSize: any = req.query.pageSize;
+    const page = +req.query.page;
+    const pageSize = +req.query.pageSize;
 
     const patients = await Patient.find()
       .sort({ _id: -1 })
@@ -22,7 +22,7 @@ export async function select_records(req: Request, res: Response): Promise<any> 
   }
 }
 
-export async function select_record(req: Request, res: Response) {
+export async function show(req: Request, res: Response) {
   try {
     const patient = await Patient.findOne({ _id: req.params._id });
 
@@ -42,7 +42,7 @@ export async function create_record(req: Request, res: Response): Promise<any> {
   }
 }
 
-export async function update_record(req: Request, res: Response): Promise<any> {
+export async function update(req: Request, res: Response): Promise<any> {
   try {
     const patient = await Patient.findOneAndUpdate(
       { _id: req.params._id },
@@ -58,7 +58,7 @@ export async function update_record(req: Request, res: Response): Promise<any> {
   }
 }
 
-export async function delete_record(req: Request, res: Response): Promise<any> {
+export async function destroy(req: Request, res: Response): Promise<any> {
   try {
     await Patient.findOneAndDelete({ _id: req.params._id });
 

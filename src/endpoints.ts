@@ -149,19 +149,17 @@ module.exports = function (app: any) {
         in: 'query',
         description: 'Current page showing',
         example: '3',
-        type: 'int',
-        required: true,
+        type: 'int'
       }
       #swagger.parameters['pageSize'] = {
         in: 'query',
         description: 'Total items showing in per page',
         example: '50',
-        type: 'int',
-        required: true,
+        type: 'int'
       } */
       next();
     },
-    PatientsController.select_records
+    PatientsController.index
   );
   app.get(
     "/users/:_id",
@@ -170,7 +168,7 @@ module.exports = function (app: any) {
       // #swagger.description = 'Endpoint para obter o registro.'
       next();
     },
-    PatientsController.select_record,
+    PatientsController.show,
     function (req: any, res: any, next: any) {
       /* #swagger.responses[200] = {
         schema: { $ref: "#/definitions/User" },
@@ -209,7 +207,7 @@ module.exports = function (app: any) {
       } */
       next();
     },
-    PatientsController.update_record
+    PatientsController.update
   );
   app.delete(
     "/users/:_id",
@@ -218,7 +216,7 @@ module.exports = function (app: any) {
       // #swagger.description = 'Endpoint para excluir o registro.'
       next();
     },
-    PatientsController.delete_record
+    PatientsController.destroy
   );
 
 };
