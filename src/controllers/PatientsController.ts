@@ -7,13 +7,19 @@ export async function index(req: Request, res: Response): Promise<any> {
     const page = +req.query.page;
     const pageSize = +req.query.pageSize;
 
-    const patients = await Patient.find()
+    const patients = await Patient.find({})
+      // .select({
+      //   _id: 1,
+      //   name: 1,
+      //   gender: 1,
+      //   email: 1,
+      //   phone: 1,
+      //   cell: 1,
+      //   nat: 1,
+      // })
       .sort({ _id: -1 })
       .skip(page > 0 ? (page - 1) * pageSize : 0)
       .limit(pageSize);
-      // .forEach((item) => {
-      //   print(item.name);
-      // })
 
 
     return res.status(200).json(patients);
