@@ -3,7 +3,11 @@ import { Request, Response } from "express";
 import Patient from "../models/Patient"; // Pattern: mongo collection = patients
 export async function index(req: Request, res: Response): Promise<any> {
   try {
+    //
 
+    const results = await Patient.find({});
+
+    //
     const page = +req.query.page;
     const pageSize = +req.query.pageSize;
 
@@ -21,8 +25,17 @@ export async function index(req: Request, res: Response): Promise<any> {
       .skip(page > 0 ? (page - 1) * pageSize : 0)
       .limit(pageSize);
 
+    const options = {
+      results: patients,
+      info: {
+        seed: "2f10116f1799d353",
+        results: results.length,
+        page: Math.round(results.length / pageSize),
+        version: "1.0.0",
+      },
+    };
 
-    return res.status(200).json(patients);
+    return res.status(200).json(options);
   } catch (e) {
     return res.status(500).send({ error: `Ocorreu um erro: ${e.message}` });
   }
