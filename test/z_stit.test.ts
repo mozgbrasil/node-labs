@@ -1,7 +1,7 @@
 import request from "supertest";
 import server from "../src/app";
 
-// $(npm bin)/jest ./test/st_it.test.ts
+// $(npm bin)/jest ./test/z_stit.test.ts
 
 //
 

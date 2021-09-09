@@ -8,11 +8,13 @@
 
 ## API / Back-End
 
+### Repositório
+
+- https://github.com/mozgbrasil/node-labs
+
 #### 1. Importar dados
 
-```
-$ npx ts-node scripts/PatientSeeder.ts
-```
+`npx ts-node scripts/PatientSeeder.ts`
 
 #### 2. REST API
 
@@ -24,22 +26,31 @@ $ npx ts-node scripts/PatientSeeder.ts
 
 #### 3. Extras
 
-1. @TODO - "Escrever Unit Test nos endpoints" / O projeto já contêm prática de uso de Unit Test, mas não foi integrado nesse momento
+1. `$(npm bin)/jest ./test/z_findupit.test`
 2. Na pasta .devcontainer temos o container Docker construido pela equipe do vscode para execução do ambiente
 3. @TODO - "Escrever esquema de segurança nos endpoints" / O projeto já contêm prática de autorização, mas não foi integrado aos novos endpoints nesse momento
 4. Não implantado a especificação "Open API 3.0" devido a ausencia de biblioteca de automação, oque me demandaria maior tempo para geração da documentação da API
 
 ## Front-end
 
-#### 4. Sinopse
+### Repositório
 
-A tela inicial do projeto será um lista de pacientes que deverá conter um buscador para facilitar filtrar todos os que são exibidos na lista, proposta de tela:
+- https://github.com/mozgbrasil/react-berry
 
-#### 2. Extras
+### Implantando em
 
-1. x
-2. x
-3. x
-4. x
-5. x
-6. x
+- https://react-berry.vercel.app/react-berry/patients
+
+#### 1. Extras
+
+1. @TODO
+2. @TODO
+3. @TODO
+4. @TODO
+5. @TODO
+6. @TODO
+
+#### 2.
+
+@ TODO: exibir os paginadores restantes
+@ TODO: auto-preencher formulario e atualizar
