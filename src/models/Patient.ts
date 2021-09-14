@@ -1,20 +1,11 @@
 import { Document, model, Schema } from "mongoose";
 
 export interface IPatient extends Document {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  location: {
+  location?: {
     street: {
       number: number;
       name: string;
     };
-    city: string;
-    state: string;
-    postcode: string;
     coordinates: {
       latitude: string;
       longitude: string;
@@ -23,9 +14,18 @@ export interface IPatient extends Document {
       offset: string;
       description: string;
     };
+    city: string;
+    state: string;
+    postcode: string;
+  };
+  gender?: string;
+  name?: {
+    title: string;
+    first: string;
+    last: string;
   };
   email: string;
-  login: {
+  login?: {
     uuid: string;
     username: string;
     password: string;
@@ -34,86 +34,86 @@ export interface IPatient extends Document {
     sha1: string;
     sha256: string;
   };
-  dob: {
+  dob?: {
     date: string;
     age: number;
   };
-  registered: {
+  registered?: {
     date: string;
     age: number;
   };
-  phone: string;
-  cell: string;
+  phone?: string;
+  cell?: string;
   // id: {
   //   name: string;
   //   value: string;
   // };
-  picture: {
+  picture?: {
     large: string;
     medium: string;
     thumbnail: string;
   };
-  nat: string;
+  nat?: string;
 }
 
-// Schema
-const PatientSchema = new Schema(
-  {
-    gender: { type: String, required: true },
-    name: {
-      title: { type: String, required: true },
-      first: { type: String, required: true },
-      last: { type: String, required: true },
+const jsonSchema = {
+  location: {
+    street: {
+      number: { type: Number, required: false },
+      name: { type: String, required: false },
     },
-    location: {
-      street: {
-        number: { type: Number, required: true },
-        name: { type: String, required: true },
-      },
-      city: { type: String, required: true },
-      state: { type: String, required: true },
-      postcode: { type: String, required: true },
-      coordinates: {
-        latitude: { type: String, required: true },
-        longitude: { type: String, required: true },
-      },
-      timezone: {
-        offset: { type: String, required: true },
-        description: { type: String, required: true },
-      },
+    coordinates: {
+      latitude: { type: String, required: false },
+      longitude: { type: String, required: false },
     },
-    email: { type: String, required: true },
-    login: {
-      uuid: { type: String, required: true },
-      username: { type: String, required: true },
-      password: { type: String, required: true },
-      salt: { type: String, required: true },
-      md5: { type: String, required: true },
-      sha1: { type: String, required: true },
-      sha256: { type: String, required: true },
+    timezone: {
+      offset: { type: String, required: false },
+      description: { type: String, required: false },
     },
-    dob: {
-      date: { type: String, required: true },
-      age: { type: Number, required: true },
-    },
-    registered: {
-      date: { type: String, required: true },
-      age: { type: Number, required: true },
-    },
-    phone: { type: String, required: true },
-    cell: { type: String, required: true },
-    // _id: {
-    //   name: { type: String, required: true },
-    //   value: { type: String, required: true },
-    // },
-    picture: {
-      large: { type: String, required: true },
-      medium: { type: String, required: true },
-      thumbnail: { type: String, required: true },
-    },
-    nat: { type: String, required: true },
+    city: { type: String, required: false },
+    state: { type: String, required: false },
+    postcode: { type: String, required: false },
   },
-  // { _id: false },
-);
+  gender: { type: String, required: false },
+  name: {
+    title: { type: String, required: false },
+    first: { type: String, required: false },
+    last: { type: String, required: false },
+  },
+  email: { type: String, required: false },
+  login: {
+    uuid: { type: String, required: false },
+    username: { type: String, required: false },
+    password: { type: String, required: false },
+    salt: { type: String, required: false },
+    md5: { type: String, required: false },
+    sha1: { type: String, required: false },
+    sha256: { type: String, required: false },
+  },
+  dob: {
+    date: { type: String, required: false },
+    age: { type: Number, required: false },
+  },
+  registered: {
+    date: { type: String, required: false },
+    age: { type: Number, required: false },
+  },
+  phone: { type: String, required: false },
+  cell: { type: String, required: false },
+  // _id: {
+  //   name: { type: String, required: true },
+  //   value: { type: String, required: true },
+  // },
+  picture: {
+    large: { type: String, required: false },
+    medium: { type: String, required: false },
+    thumbnail: { type: String, required: false },
+  },
+  nat: { type: String, required: false },
+};
 
-export default model("Patient", PatientSchema);
+const PatientSchema = new Schema(jsonSchema);
+
+const PatientModel = model("Patient", PatientSchema);
+
+export default PatientModel;
