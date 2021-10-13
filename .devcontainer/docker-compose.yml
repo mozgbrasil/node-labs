@@ -1,5 +1,11 @@
 version: "3"
 
+# (Adding the "ports" property to this file will not forward from a Codespace.)
+# Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+# Add "forwardPorts": ["27017"] in **devcontainer.json** to forward mongodb locally.
+# Add "forwardPorts": ["5672"] in **devcontainer.json** to forward rabbitmq locally.
+# Add "forwardPorts": ["5432"] in **devcontainer.json** to forward postgres locally.
+
 services:
   app:
     build:
@@ -16,14 +22,17 @@ services:
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+    # network_mode: "service:mongodb"
+    # host = work / bridge = not work devcontainer /
+    network_mode: "host"
     # Uncomment the next line to use a non-root user for all processes.
     # user: node
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-  db:
-    image: mongo:latest
+  mongodb:
+    image: mongo
+    network_mode: "host"
     restart: unless-stopped
+    ports:
+      - 27017:27017
     volumes:
       - mongodb-data:/data/db
     # Uncomment to change startup options
@@ -31,19 +40,73 @@ services:
     #  MONGO_INITDB_ROOT_USERNAME: root
     #  MONGO_INITDB_ROOT_PASSWORD: example
     #  MONGO_INITDB_DATABASE: your-database-here
-    # Add "forwardPorts": ["27017"] to **devcontainer.json** to forward MongoDB locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-  # redis:
-  #   image: redis
-  #   restart: unless-stopped
-  # redisinsight:
-  #   image: redislabs/redisinsight
-  #   restart: unless-stopped
-  #   links:
-  #     - redis:redis
-  #   volumes:
-  #     - redis-data:/db
-
+  mongo-express:
+    image: mongo-express
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+    environment:
+      ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL:-mongodb://localhost:27017/mjv?ssl=false}
+  postgres:
+    image: postgres
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-hello}
+    volumes:
+      - "volume-postgres:/var/lib/postgresql/data"
+  adminer:
+    image: adminer
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+  pgadmin:
+    image: "dpage/pgadmin4"
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - "15432:15432"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@gmail.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - "volume-pgadmin:/var/lib/pgadmin"
+  redis:
+    image: redis
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+  redisinsight:
+    image: redislabs/redisinsight
+    network_mode: "host"
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - redis-data:/db
+  rabbitmq:
+    image: rabbitmq
+    network_mode: "host"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/mnesia
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
 volumes:
   mongodb-data:
-  # redis-data:
+  volume-postgres:
+  volume-pgadmin:
+  redis-data:
+  rabbitmq-data:
