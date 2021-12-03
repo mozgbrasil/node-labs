@@ -2,7 +2,7 @@
 
 ![valid XHTML][checkmark]
 
-# node-labs
+# node-labs 👉️
 
 ## Contribuição
 
